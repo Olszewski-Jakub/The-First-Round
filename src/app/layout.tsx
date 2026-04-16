@@ -13,9 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: "BusHive - Real-time Bus Tracking | Coming Soon",
-    description: "Track buses in real-time, view schedules, and plan your journeys with ease. BusHive is revolutionizing how you navigate public transportation.",
-    keywords: ["bus tracking", "real-time tracking", "public transportation", "bus schedules", "journey planning"],
+    title: "BusHive — Real-time Bus Tracking",
+    description: "Never miss your bus again. BusHive brings live GPS tracking, smart schedules, and door-to-door trip planning to your pocket.",
+    keywords: ["bus tracking", "real-time tracking", "public transportation", "bus schedules", "journey planning", "transit app"],
+    openGraph: {
+        title: "BusHive — Real-time Bus Tracking",
+        description: "Never miss your bus again. BusHive brings live GPS tracking, smart schedules, and door-to-door trip planning to your pocket.",
+        type: "website",
+    },
 };
 
 export default function RootLayout({
