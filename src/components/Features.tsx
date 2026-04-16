@@ -89,7 +89,13 @@ export default function Features() {
                         <m.div
                             key={index}
                             variants={cardVariants}
-                            className="group bg-white/5 backdrop-blur-sm border border-white/8 rounded-2xl p-8 hover:bg-white/8 hover:border-cyan-500/30 transition-all duration-300 cursor-default"
+                            className="group bg-white/5 backdrop-blur-sm border border-white/8 rounded-2xl p-8 hover:bg-white/8 hover:border-cyan-500/30 hover:-translate-y-1 transition-all duration-300 cursor-default"
+                            onMouseEnter={(e) => {
+                                (e.currentTarget as HTMLElement).style.boxShadow = '0 0 40px rgba(6, 182, 212, 0.18), 0 20px 40px rgba(0,0,0,0.3)';
+                            }}
+                            onMouseLeave={(e) => {
+                                (e.currentTarget as HTMLElement).style.boxShadow = '';
+                            }}
                         >
                             <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-6 text-cyan-400 group-hover:bg-cyan-500/15 transition-colors">
                                 {feature.icon}
