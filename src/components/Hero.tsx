@@ -1,51 +1,10 @@
 "use client";
-import { useState, useEffect } from 'react';
 import { m, useReducedMotion } from 'framer-motion';
-import { collection, addDoc, Timestamp, getDocs, query, where } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useEmailSignup } from '@/lib/useEmailSignup';
 
 export default function Hero() {
-    const [email, setEmail] = useState('');
-    const [submitted, setSubmitted] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const prefersReducedMotion = useReducedMotion();
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        setError(null);
-
-        try {
-            const emailsCollection = collection(db, 'mailingList');
-            const q = query(emailsCollection, where('email', '==', email));
-            const querySnapshot = await getDocs(q);
-
-            if (!querySnapshot.empty) {
-                setError('This email is already subscribed!');
-                setLoading(false);
-                return;
-            }
-
-            await addDoc(emailsCollection, {
-                email,
-                subscribedAt: Timestamp.now(),
-                source: 'landing_page'
-            });
-
-            setSubmitted(true);
-            setEmail('');
-
-            setTimeout(() => {
-                setSubmitted(false);
-            }, 3000);
-        } catch (err) {
-            console.error('Error adding email to mailing list:', err);
-            setError('Failed to subscribe. Please try again later.');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { email, setEmail, submitted, loading, error, handleSubmit } = useEmailSignup();
 
     const fadeUp = {
         initial: { opacity: 0, y: prefersReducedMotion ? 0 : 30 },
@@ -86,12 +45,7 @@ export default function Hero() {
             <div className="container mx-auto max-w-6xl relative z-10">
                 <div className="grid md:grid-cols-2 gap-16 items-center">
                     {/* Left column */}
-                    <m.div
-                        variants={stagger}
-                        initial="initial"
-                        animate="animate"
-                        className="flex flex-col"
-                    >
+                    <m.div variants={stagger} initial="initial" animate="animate" className="flex flex-col">
                         {/* Badge */}
                         <m.div variants={fadeUp} transition={{ duration: 0.5 }}>
                             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono font-semibold uppercase tracking-widest mb-6">
@@ -166,10 +120,24 @@ export default function Hero() {
                                     You&apos;re on the list! We&apos;ll notify you when we launch.
                                 </p>
                             )}
-                            {error && (
-                                <p className="mt-3 text-red-400 text-sm">{error}</p>
-                            )}
+                            {error && <p className="mt-3 text-red-400 text-sm">{error}</p>}
+
                             <p className="mt-3 text-slate-600 text-xs">No spam. Unsubscribe anytime.</p>
+
+                            {/* Platform badges */}
+                            <div className="flex flex-wrap gap-2 mt-5">
+                                {['iOS App', 'Android App'].map((platform) => (
+                                    <span
+                                        key={platform}
+                                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.03] text-slate-500 text-xs"
+                                    >
+                                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                        {platform} — Coming Soon
+                                    </span>
+                                ))}
+                            </div>
                         </m.div>
                     </m.div>
 
@@ -181,12 +149,9 @@ export default function Hero() {
                         className="relative flex justify-center"
                     >
                         <div className="relative w-full max-w-sm">
-                            {/* Glow behind the card */}
                             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/20 to-sky-600/20 blur-2xl scale-105" />
 
-                            {/* Main card */}
                             <div className="relative bg-[#0F1624] border border-white/10 rounded-3xl p-6 shadow-2xl">
-                                {/* Card header */}
                                 <div className="flex items-center justify-between mb-6">
                                     <div>
                                         <p className="text-xs font-mono text-slate-500 uppercase tracking-widest">Live Tracking</p>
@@ -203,7 +168,6 @@ export default function Hero() {
 
                                 {/* Fake map area */}
                                 <div className="relative h-44 rounded-2xl bg-[#080C14] overflow-hidden mb-6">
-                                    {/* Grid lines */}
                                     <svg className="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
                                         <defs>
                                             <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
@@ -213,30 +177,20 @@ export default function Hero() {
                                         <rect width="100%" height="100%" fill="url(#grid)" />
                                     </svg>
 
-                                    {/* Route line */}
                                     <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M 20 140 Q 80 80 160 100 Q 220 115 280 60"
-                                            fill="none"
-                                            stroke="url(#routeGrad)"
-                                            strokeWidth="2.5"
-                                            strokeDasharray="6 3"
-                                            strokeLinecap="round"
-                                        />
+                                        <path d="M 20 140 Q 80 80 160 100 Q 220 115 280 60" fill="none" stroke="url(#routeGrad)" strokeWidth="2.5" strokeDasharray="6 3" strokeLinecap="round"/>
                                         <defs>
                                             <linearGradient id="routeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                                                 <stop offset="0%" stopColor="#06B6D4" stopOpacity="0.4"/>
                                                 <stop offset="100%" stopColor="#0EA5E9" stopOpacity="1"/>
                                             </linearGradient>
                                         </defs>
-                                        {/* Stop dots */}
                                         <circle cx="20" cy="140" r="4" fill="#06B6D4" opacity="0.5"/>
                                         <circle cx="160" cy="100" r="4" fill="#06B6D4" opacity="0.7"/>
                                         <circle cx="280" cy="60" r="5" fill="#06B6D4"/>
                                         <circle cx="280" cy="60" r="10" fill="#06B6D4" opacity="0.2"/>
                                     </svg>
 
-                                    {/* Animated bus marker */}
                                     <div
                                         className="absolute w-8 h-8 flex items-center justify-center"
                                         style={{
@@ -254,7 +208,6 @@ export default function Hero() {
                                     </div>
                                 </div>
 
-                                {/* ETA cards */}
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="bg-[#080C14] rounded-xl p-3 border border-white/5">
                                         <p className="text-xs text-slate-500 mb-1">Next stop</p>
