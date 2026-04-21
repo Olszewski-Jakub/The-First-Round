@@ -22,7 +22,7 @@ const faqGroups: FAQGroup[] = [
             },
             {
                 question: 'Which cities are supported?',
-                answer: 'We are launching in Dublin and London as our initial Beta cities. Warsaw, Amsterdam, Berlin, and Prague are planned for later in 2026. More cities will follow based on community demand — you can vote for your city via our waitlist.',
+                answer: 'We are launching across Ireland as our initial Beta market. The UK and mainland Europe (Poland, Netherlands, Germany, Czech Republic) are planned for later in 2026. More countries will follow based on community demand — you can vote for your region via our waitlist.',
             },
             {
                 question: 'Is BusHive free to use?',
@@ -39,7 +39,7 @@ const faqGroups: FAQGroup[] = [
         items: [
             {
                 question: 'When will BusHive launch?',
-                answer: 'We are actively in development. The first public Beta targeting Dublin and London is planned for mid-2026. Waitlist members will be the first to receive access and will get a heads-up before anyone else.',
+                answer: 'We are actively in development with iOS and Android beta apps launching in Ireland first. Waitlist members will be the first to receive access and will get a heads-up before anyone else.',
             },
             {
                 question: 'How do I get early access?',

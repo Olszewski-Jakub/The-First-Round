@@ -2,12 +2,12 @@
 import { m, useReducedMotion } from 'framer-motion';
 
 const cities = [
-    { name: 'Dublin',    flag: '🇮🇪', status: 'Beta' as const },
-    { name: 'London',    flag: '🇬🇧', status: 'Beta' as const },
-    { name: 'Warsaw',    flag: '🇵🇱', status: 'Coming Soon' as const },
-    { name: 'Amsterdam', flag: '🇳🇱', status: 'Coming Soon' as const },
-    { name: 'Berlin',    flag: '🇩🇪', status: 'Coming Soon' as const },
-    { name: 'Prague',    flag: '🇨🇿', status: 'Coming Soon' as const },
+    { name: 'Ireland',   flag: '🇮🇪', status: 'Beta' as const },
+    { name: 'UK',        flag: '🇬🇧', status: 'Coming Soon' as const },
+    { name: 'Poland',    flag: '🇵🇱', status: 'Coming Soon' as const },
+    { name: 'Netherlands', flag: '🇳🇱', status: 'Coming Soon' as const },
+    { name: 'Germany',   flag: '🇩🇪', status: 'Coming Soon' as const },
+    { name: 'Czech Rep.', flag: '🇨🇿', status: 'Coming Soon' as const },
 ];
 
 export default function Cities() {
